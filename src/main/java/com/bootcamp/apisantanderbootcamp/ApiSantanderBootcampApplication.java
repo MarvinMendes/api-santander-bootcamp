@@ -17,8 +17,9 @@ public class ApiSantanderBootcampApplication {
     @Bean
     public OpenAPI customOpenApi() {
         return new OpenAPI().info(new Info().title("")
-        .version("1.0")
-        .termsOfService("http://swagger.io/terms")
-        .license(new License().name("Apache 2.0").url("http://springdoc.org")));
+                .version("1.0")
+                .termsOfService("http://swagger.io/terms")
+                .license(new License().name("Apache 2.0").url("http://springdoc.org")));
     }
+
 }

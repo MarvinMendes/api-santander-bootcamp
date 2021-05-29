@@ -1,42 +1,29 @@
-package com.bootcamp.apisantanderbootcamp.dto;
+package com.bootcamp.apisantanderbootcamp.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "tb_stock")
+public class Stock {
 
-public class StockDTO {
-
-    public StockDTO() {}
-
-    public StockDTO(Long id, String name, Double price, Double variation, LocalDate date) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.variation =  variation;
-        this.date = date;
-    }
-
-
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
+    @Column(name = "name")
     private String name;
 
-    @NotNull
-    @DecimalMin(value = "0.00")
-    @Digits(integer = 6, fraction = 2)
+    @Column(name = "price")
     private Double price;
 
-    @NotNull
-    @Digits(integer = 3, fraction = 2)
+    @Column(name = "variation")
     private Double variation;
 
-    @NotNull
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    @Column(name = "date")
     private LocalDate date;
 
     public Long getId() {

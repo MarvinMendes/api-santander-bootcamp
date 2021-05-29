@@ -1,6 +1,8 @@
 package com.bootcamp.apisantanderbootcamp.controller;
 
 import com.bootcamp.apisantanderbootcamp.dto.StockDTO;
+import com.bootcamp.apisantanderbootcamp.service.StockService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
@@ -17,34 +19,26 @@ import java.util.Optional;
 @RequestMapping(value = "/stock")
 public class StockController {
 
-    List<StockDTO> list = new ArrayList<>();
-
+    @Autowired
+    private StockService service;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StockDTO> save(@Valid @RequestBody StockDTO dto) {
-        return ResponseEntity.of(Optional.of(dto));
+        return ResponseEntity.ok(service.save(dto));
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<StockDTO>> findAll() {
-        StockDTO santander = new StockDTO(1L, "Santander", 198.0, 3.6, LocalDate.now());
-        StockDTO pontoFrio = new StockDTO(2L, "Ponto Frio", 20.0, 23.0, LocalDate.now());
-        list.add(santander);
-        list.add(pontoFrio);
-
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(service.findALl());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<StockDTO> findById(@PathVariable Long id) {
-        StockDTO stockById = list.stream().filter(x -> x.getId().compareTo(id) == 0)
-                .findFirst().orElseThrow(NoSuchElementException::new);
-        return ResponseEntity.ok(stockById);
+        return ResponseEntity.ok(service.findById(id));
     }
-
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StockDTO> update(@RequestBody StockDTO dto) {
-        return ResponseEntity.ok(dto);
+        return ResponseEntity.ok(service.replace(dto));
     }
 }
