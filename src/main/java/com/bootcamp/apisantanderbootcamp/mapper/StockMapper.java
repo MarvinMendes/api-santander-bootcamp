@@ -3,9 +3,10 @@ package com.bootcamp.apisantanderbootcamp.mapper;
 import com.bootcamp.apisantanderbootcamp.dto.StockDTO;
 import com.bootcamp.apisantanderbootcamp.entity.Stock;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Component
@@ -27,6 +28,10 @@ public class StockMapper {
           stock.setVariation(dto.getVariation());
           stock.setDate(dto.getDate());
           return stock;
+     }
+
+     public List<StockDTO> toDTO(List<Stock> list) {
+          return list.stream().map(this::toDTO).collect(Collectors.toList());
      }
 
 }

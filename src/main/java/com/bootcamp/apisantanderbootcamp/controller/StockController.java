@@ -44,4 +44,9 @@ public class StockController {
         return ResponseEntity.ok(service.delete(id));
     }
 
+    @GetMapping(value = "/today", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<StockDTO>> findByToday() throws StockNotFoundException {
+        return ResponseEntity.ok(service.findByToday());
+    }
+
 }
