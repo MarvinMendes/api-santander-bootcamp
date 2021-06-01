@@ -3,6 +3,7 @@ package com.bootcamp.apisantanderbootcamp.service;
 import com.bootcamp.apisantanderbootcamp.dto.StockDTO;
 import com.bootcamp.apisantanderbootcamp.entity.Stock;
 import com.bootcamp.apisantanderbootcamp.exceptions.StockAlreadyRegisteredException;
+import com.bootcamp.apisantanderbootcamp.exceptions.StockNotFoundException;
 import com.bootcamp.apisantanderbootcamp.mapper.StockMapper;
 import com.bootcamp.apisantanderbootcamp.repository.StockRepository;
 import com.bootcamp.apisantanderbootcamp.utils.MessageUtils;
@@ -40,12 +41,12 @@ public class StockService {
     }
 
     @Transactional(readOnly = true)
-    public StockDTO findById(Long id) {
+    public StockDTO findById(Long id) throws StockNotFoundException {
         return getByIdOrElseThrow(id);
     }
 
-    private StockDTO getByIdOrElseThrow(Long id) {
-        return repository.findById(id).map(mapper::toDTO).orElseThrow(NoSuchElementException::new);
+    private StockDTO getByIdOrElseThrow(Long id) throws StockNotFoundException {
+        return repository.findById(id).map(mapper::toDTO).orElseThrow( () -> new StockNotFoundException(MessageUtils.STOCK_NOT_FOUNDED));
     }
 
     @Transactional

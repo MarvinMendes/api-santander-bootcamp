@@ -13,4 +13,11 @@ public class StockExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<ExceptionResponse> handleSecurity(StockAlreadyRegisteredException ex) {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new ExceptionResponse(ex.getMessage()));
     }
+
+    @ExceptionHandler(StockNotFoundException.class)
+    protected ResponseEntity<ExceptionResponse> handleSecurity(StockNotFoundException exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ExceptionResponse(exception.getMessage()));
+    }
+
+
 }

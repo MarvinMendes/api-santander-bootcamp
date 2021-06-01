@@ -2,6 +2,7 @@ package com.bootcamp.apisantanderbootcamp.controller;
 
 import com.bootcamp.apisantanderbootcamp.dto.StockDTO;
 import com.bootcamp.apisantanderbootcamp.exceptions.StockAlreadyRegisteredException;
+import com.bootcamp.apisantanderbootcamp.exceptions.StockNotFoundException;
 import com.bootcamp.apisantanderbootcamp.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -34,7 +35,7 @@ public class StockController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StockDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<StockDTO> findById(@PathVariable Long id) throws StockNotFoundException {
         return ResponseEntity.ok(service.findById(id));
     }
 
