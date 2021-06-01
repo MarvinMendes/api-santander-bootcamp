@@ -39,7 +39,7 @@ public class StockController {
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<StockDTO> update(@RequestBody StockDTO dto) {
+    public ResponseEntity<StockDTO> update(@RequestBody StockDTO dto) throws StockAlreadyRegisteredException {
         return ResponseEntity.ok(service.replace(dto));
     }
 }

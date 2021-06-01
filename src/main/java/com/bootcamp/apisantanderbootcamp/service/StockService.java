@@ -49,16 +49,14 @@ public class StockService {
     }
 
     @Transactional
-    public StockDTO replace(StockDTO dto) {
-        Optional<Stock> stockOptional = repository.findById(dto.getId());
-        if (stockOptional.isPresent()) {
-            Stock stock = stockOptional.get();
-            stock.setName(dto.getName());
-            stock.setPrice(dto.getPrice());
-            stock.setVariation(dto.getVariation());
-            stock.setDate(dto.getDate());
-            return mapper.toDTO(repository.save(stock));
+    public StockDTO replace(StockDTO dto) throws StockAlreadyRegisteredException {
+        Optional<Stock> byStockAndUpdate = repository.findByStockUpdate(dto.getName(), dto.getDate(), dto.getId());
+        if (byStockAndUpdate.isPresent()) {
+            throw new StockAlreadyRegisteredException(MessageUtils.STOCK_ALREADY_EXISTS);
         }
-        throw new NoSuchElementException();
+        Stock stock = mapper.toEntity(dto);
+        stock.setId(dto.getId());
+        repository.save(stock);
+        return mapper.toDTO(stock);
     }
 }
