@@ -1,6 +1,7 @@
 package com.bootcamp.apisantanderbootcamp.controller;
 
 import com.bootcamp.apisantanderbootcamp.dto.StockDTO;
+import com.bootcamp.apisantanderbootcamp.exceptions.StockAlreadyRegisteredException;
 import com.bootcamp.apisantanderbootcamp.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -23,7 +24,7 @@ public class StockController {
     private StockService service;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<StockDTO> save(@Valid @RequestBody StockDTO dto) {
+    public ResponseEntity<StockDTO> save(@Valid @RequestBody StockDTO dto) throws StockAlreadyRegisteredException {
         return ResponseEntity.ok(service.save(dto));
     }
 

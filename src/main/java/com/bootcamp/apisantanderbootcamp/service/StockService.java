@@ -2,8 +2,10 @@ package com.bootcamp.apisantanderbootcamp.service;
 
 import com.bootcamp.apisantanderbootcamp.dto.StockDTO;
 import com.bootcamp.apisantanderbootcamp.entity.Stock;
+import com.bootcamp.apisantanderbootcamp.exceptions.StockAlreadyRegisteredException;
 import com.bootcamp.apisantanderbootcamp.mapper.StockMapper;
 import com.bootcamp.apisantanderbootcamp.repository.StockRepository;
+import com.bootcamp.apisantanderbootcamp.utils.MessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,11 +25,12 @@ public class StockService {
     private StockMapper mapper;
 
     @Transactional
-    public StockDTO save(StockDTO dto) {
-        Stock save = mapper.toEntity(dto);
-        repository.save(save);
-        StockDTO stockDTO = mapper.toDTO(save);
-        return stockDTO;
+    public StockDTO save(StockDTO dto) throws StockAlreadyRegisteredException {
+        Optional<Stock> stockAlreadyExist = repository.findByNameAndAndDate(dto.getName(), dto.getDate());
+        if(stockAlreadyExist.isPresent()) {
+            throw new StockAlreadyRegisteredException(MessageUtils.STOCK_ALREADY_EXISTS);
+        }
+        return mapper.toDTO(repository.save(mapper.toEntity(dto)));
     }
 
     @Transactional(readOnly = true)
