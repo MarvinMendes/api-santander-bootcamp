@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -59,5 +58,12 @@ public class StockService {
         stock.setId(dto.getId());
         repository.save(stock);
         return mapper.toDTO(stock);
+    }
+
+    @Transactional
+    public StockDTO delete(Long id) throws StockNotFoundException {
+        StockDTO stockDTO = findById(id);
+        repository.deleteById(id);
+        return stockDTO;
     }
 }
